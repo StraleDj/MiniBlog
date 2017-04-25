@@ -1,0 +1,221 @@
+﻿@{
+    string next = Blog.GetNextPage();
+    string prev = Blog.GetPrevPage();
+}
+
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head runat="server">
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="ExcelRescue.net" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="description" content="@Page.Description" />
+
+
+    <meta name="application-name" content="@Blog.Title" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+
+    <meta property="og:title" content="@Page.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="@Blog.Image" />
+    <meta property="og:url" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + Request.RawUrl)" />
+
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/bootstrap.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/style.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/swiper.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/dark.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/font-icons.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/animate.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/magnific-popup.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/components/pricing-table.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/colors.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/custom.css")" type="text/css" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/css/responsive.css")" type="text/css" />
+    <link href="@Blog.FingerPrint("/favicon.ico")" rel="shortcut icon" type="image/x-icon" />
+    <link rel="dns-prefetch" href="http://gravatar.com/" />
+
+    <link type="application/rsd+xml" rel="edituri" title="RSD" href="~/views/robots/rsd" />
+    <link type="application/rss+xml" rel="alternate" title="@Blog.Title" href="~/feed/rss/" />
+    <link type="application/atom+xml" rel="alternate" title="@Blog.Title" href="~/feed/atom/" />
+
+    @if (!string.IsNullOrEmpty(prev))
+    {
+        <link rel="prev" href="@prev" />
+    }
+    @if (!string.IsNullOrEmpty(next))
+    {
+        <link rel="next" href="@next" />
+    }
+    @AdminCss()
+</head>
+
+<body itemscope itemtype="http://schema.org/Blog" class="@(User.Identity.IsAuthenticated ? "admin": null)">
+
+    <!-- Document Wrapper
+    ============================================= -->
+    <div id="wrapper" class="clearfix">
+
+        <!-- Header
+        ============================================= -->
+        <header id="header" class="full-header">
+            <div id="header-wrap">
+                <div class="container clearfix">
+                    <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+                    <!-- Logo
+                    ============================================= -->
+                    <div id="logo">
+                        <a href="/" class="standard-logo"><img src="@Blog.FingerPrint("/themes/" + Blog.Theme + "/images/logo.png")" alt="Excel Rescue Logo"></a>
+                    </div><!-- #logo end -->
+                    <!-- Primary Navigation
+                    ============================================= -->
+                    <nav id="primary-menu">
+                        <ul>
+                            @*<li><a href="#"><div>Nav Btn 1</div></a></li>
+                                <li><a href="#"><div>Nav Btn 1</div></a></li>*@
+                            <li></li>
+                        </ul>
+                        <a href="@FormsAuthentication.LoginUrl?ReturnUrl=@Request.RawUrl" class="button button-small button-3d header-button">Log In</a>
+                    </nav><!-- #primary-menu end -->
+
+                </div>
+            </div>
+        </header>
+        <div class="clear"></div><!-- #header end -->
+        <!-- Content
+        ============================================= -->
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix">
+                    @RenderBody()
+                </div>
+            </div>
+        </section><!-- #content end -->
+        <!-- Footer
+        ============================================= -->
+        <footer id="footer" class="dark">
+            <div class="container">
+
+                <!-- Footer Widgets
+                ============================================= -->
+                <div class="footer-widgets-wrap clearfix">
+                    <div class="col_two_third">
+                        <div class="col_one_third">
+                            <div class="widget clearfix">
+                                <img src="@Blog.FingerPrint("/themes/" + Blog.Theme + "/images/footer-widget-logo.png")" alt="" class="footer-logo">
+                                <p><strong>Expert Excel Help</strong> for CFO's, CGA's, Business Owners, Coaches, Project Managers, Engineers, Consultants, Financial Advisors, HR Managers, and Accountants.</p>
+                                <div style="background: url('@Blog.FingerPrint("/themes/" + Blog.Theme + "/images/world-map.png")') no-repeat center center; background-size: 100%;">
+                                    <address>
+                                        <strong>ExcelRescue is headquartered in New Zealand,</strong>
+                                        with our team spread globally.<br><br>
+                                        <!--In Canada, Reach us At:<br/>
+                                        700 - 1350 Burrard Street<br/>
+                                        Vancouver<br/>
+                                        British Columbia, Canada<br/>
+                                        V6Z 0C2<br/>-->
+                                    </address>
+                                    <strong><a href="#">Contact Us</a></strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col_one_third">
+                        </div>
+                        <div class="col_one_third col_last">
+                        </div>
+                    </div>
+                    <div class="col_one_third col_last">
+                        <div class="widget clearfix" style="margin-bottom: -20px;">
+                            <div class="row">
+                                <div class="col-md-6 clearfix bottommargin-sm">
+                                    <a href="https://www.facebook.com/excelrescue/" class="social-icon si-dark si-colored si-facebook nobottommargin" style="margin-right: 10px;">
+                                        <i class="icon-facebook"></i>
+                                        <i class="icon-facebook"></i>
+                                    </a>
+                                    <a href="https://www.facebook.com/excelrescue/"><small style="display: block; margin-top: 3px;"><strong>Find us</strong><br>on Facebook</small></a>
+                                </div>
+                                <div class="col-md-6 clearfix">
+                                    <a href="#" class="social-icon si-dark si-colored si-rss nobottommargin" style="margin-right: 10px;">
+                                        <i class="icon-rss"></i>
+                                        <i class="icon-rss"></i>
+                                    </a>
+                                    <a href="#"><small style="display: block; margin-top: 3px;"><strong>Subscribe</strong><br>to RSS Feeds</small></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .footer-widgets-wrap end -->
+
+            </div>
+
+            <!-- Copyrights
+            ============================================= -->
+            <div id="copyrights">
+
+                <div class="container clearfix">
+
+                    <div class="col_half">
+                        Copyrights © 2017 All Rights Reserved by ExcelRescue.net<br>
+                        <div class="copyright-links"><a href="#">Terms of Service</a> / <a href="#">Privacy Policy</a> / <a href="#">Non Disclosure Agreement</a></div>
+                    </div>
+
+                    <div class="col_half col_last tright">
+                        <div class="fright clearfix">
+                            <a href="https://www.facebook.com/excelrescue/" class="social-icon si-small si-borderless si-facebook" target="_blank">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-facebook"></i>
+                            </a>
+
+                            <a href="https://twitter.com/excelrescue" class="social-icon si-small si-borderless si-twitter" target="_blank">
+                                <i class="icon-twitter"></i>
+                                <i class="icon-twitter"></i>
+                            </a>
+
+                            <a href="https://www.linkedin.com/company/excel-rescue" class="social-icon si-small si-borderless si-linkedin" target="_blank">
+                                <i class="icon-linkedin"></i>
+                                <i class="icon-linkedin"></i>
+                            </a>
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
+
+                </div>
+
+            </div><!-- #copyrights end -->
+
+        </footer><!-- #footer end -->
+
+    </div><!-- #wrapper end -->
+    <!-- External JavaScripts
+    ============================================= -->
+    <script type="text/javascript" src="@Blog.FingerPrint("/themes/" + Blog.Theme + "/js/jquery.js")"></script>
+    <script type="text/javascript" src="@Blog.FingerPrint("/themes/" + Blog.Theme + "/js/plugins.js")"></script>
+
+    <!-- Footer Scripts
+    ============================================= -->
+    <script type="text/javascript" src="@Blog.FingerPrint("/themes/" + Blog.Theme + "/js/functions.js")"></script>
+
+    @if ((Blog.CurrentPost != null && Blog.CurrentPost.AreCommentsOpen(Context)) || Blog.IsNewPost)
+    {
+        <script src="@Blog.FingerPrint("/scripts/comments.js")" async defer></script>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        @RenderPage("~/views/AdminMenu.cshtml")
+    }
+</body>
+
+</html>
+
+@helper AdminCss()
+{
+if (User.Identity.IsAuthenticated)
+{
+        <link href="@Blog.FingerPrint("/Content/admin.css")" rel="stylesheet" />
+}
+}

@@ -1,0 +1,50 @@
+/* ----------------------------------------------------------------
+	Custom CSS
+
+	Add all your Custom Styled CSS here for New Styles or
+	Overwriting Default Theme Styles for Better Hanlding Updates
+-----------------------------------------------------------------*/
+
+
+.header-button {
+	margin: 33px 0 33px 20px;
+	-webkit-transition: margin .4s ease;
+	-o-transition: margin .4s ease;
+	transition: margin .4s ease;
+}
+
+#header.sticky-header .header-button {
+	margin-top: 13px;
+	margin-bottom: 13px;
+}
+
+/* Dont show hyphen next to name, since we're not quoting, instead using for team list. */
+.testi-meta::before {
+    content:none;
+}
+.testi-meta span {
+    padding-left:0px;
+}
+
+.testi-image, .testi-image a, .testi-image img, .testi-image i
+{
+    width: 85px;
+    height: 85px;
+}
+
+@media (max-width: 991px) {
+	#logo { text-align: left; }
+
+	.header-button {
+		position: absolute;
+		top: 33px;
+		left: auto;
+		right: 15px;
+		margin: 0;
+	}
+
+	#primary-menu-trigger {
+		left: auto;
+		right: 110px;
+	}
+}

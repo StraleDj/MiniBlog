@@ -1,0 +1,110 @@
+﻿@if (Page.ShowPaging == true)
+{
+    <div class="col_one_third">
+        <div class="feature-box fbox-plain">
+            <div class="fbox-icon">
+                <a href="@Model.Url"><img src="@Blog.FingerPrint("/themes/" + Blog.Theme + "/images/icon-function.png")" alt="Comment"></a>
+            </div>
+            <h3>@Model.Title</h3>
+            <p>@MarkupHelper.GetDescription(Model.Content, 150, "...")</p>
+            <a href="@Model.Url" class="button button-border button-border-thin button-mini button-rounded button-green" style="margin-left:0px;">View details &raquo;</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="entry" style="border-bottom:none; padding-bottom: 0;">
+        <!-- Entry Title
+        ============================================= -->
+        <div class="entry-title">
+            <a href="@Model.Url"><h2>@Model.Title</h2></a>
+        </div><!-- .entry-title end -->
+        <!-- Entry Meta
+        ============================================= -->
+        <ul class="entry-meta clearfix">
+            <li><i class="icon-calendar3"></i> @Model.PubDate.ToLocalTime().ToString("MMMM d. yyyy")</li>
+            <li><i class="icon-user"></i>Author</li>
+            <li>
+                <i class="icon-folder-open"></i>
+                @foreach (string cat in Model.Categories)
+                {
+                    <a href="~/category/@HttpUtility.UrlEncode(cat.ToLowerInvariant())">/@cat/</a>
+                }
+            </li>
+            <li><a href="#"><i class="icon-comments"></i> @Model.CountApprovedComments(Context) Comments</a></li>
+            <li><a href="#"><i class="icon-camera-retro"></i></a></li>
+        </ul><!-- .entry-meta end -->
+        <div class="clear"></div>
+        <!-- Entry Content
+        ============================================= -->
+        <div class="entry-content">
+            @Html.Raw(Blog.IsEditing ? Model.Content : Model.GetHtmlContent())
+        </div>
+        <div class="clear"></div>
+        @if (Blog.CurrentPost != null)
+        {
+            <div id="comments" aria-label="Comments">
+                @if (Model.CountApprovedComments(Context) > 0)
+                {
+                    <h2>Comments</h2>
+                }
+                <ol class="commentlist">
+                    @foreach (Comment comment in Model.Comments)
+                    {
+                        if (comment.IsApproved || !Blog.ModerateComments || Context.User.Identity.IsAuthenticated)
+                        {
+                            @RenderPage("Comment.cshtml", comment)
+                        }
+                    }
+                </ol>
+            </div>
+            @*if (Model.AreCommentsOpen(Context))
+                {
+                    @RenderPage("~/views/CommentForm.cshtml")
+                }*@
+        }
+    </div>
+}
+
+@functions{
+        public class MarkupHelper
+        {
+            #region excerpt generation
+
+            public static string GetDescription(string content, int length = 300, string ommission = "...")
+            {
+                return TruncateHtml(StripTags(content), length, ommission);
+            }
+
+            public static string TruncateHtml(string input, int length = 300, string ommission = "...")
+            {
+                if (input == null || input.Length < length)
+                    return input;
+                int nextSpace = input.LastIndexOf(" ", length);
+                return string.Format("{0}" + ommission,
+                                      input.Substring(0, (nextSpace > 0) ? nextSpace : length).Trim());
+            }
+
+            public static string StripTags(string markup)
+            {
+                try
+                {
+                    StringReader stringReader = new StringReader(markup);
+                    System.Xml.XPath.XPathDocument xPathdocument;
+                    using (System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(stringReader,
+                            new System.Xml.XmlReaderSettings() { ConformanceLevel = System.Xml.ConformanceLevel.Fragment }))
+                    {
+                        xPathdocument = new System.Xml.XPath.XPathDocument(xmlReader);
+                    }
+
+                    return xPathdocument.CreateNavigator().Value;
+                }
+                catch
+                {
+                    return string.Empty;
+                }
+            }
+
+            #endregion
+        }
+}

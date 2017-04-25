@@ -8,8 +8,10 @@
         Page.Title = Blog.Title;
         Page.Description = Blog.Description;
         Page.ShowPaging = true;
-        
+
         var posts = Blog.GetPosts(Blog.PostsPerPage);
+
+        @RenderPage("~/themes/" + Blog.Theme + "/Caption.cshtml");
 
         foreach (var post in posts)
         {
